@@ -1,0 +1,1 @@
+print("OCR IA Project started!")
