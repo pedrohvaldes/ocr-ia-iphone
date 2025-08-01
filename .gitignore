@@ -1,1 +1,4 @@
 data
+model/X_test.npy
+model/y_test.npy
+
