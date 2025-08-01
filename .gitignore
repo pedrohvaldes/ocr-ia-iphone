@@ -1,4 +1,58 @@
-data
-model/X_test.npy
-model/y_test.npy
+############################################
+# NODE / REACT NATIVE (EXPO)
+############################################
+# Dependências do Node
+iphone-ocr-app/node_modules/
 
+# Cache do Expo e arquivos temporários
+iphone-ocr-app/.expo/
+.expo/
+
+# Logs e arquivos temporários do Metro bundler
+*.log
+npm-debug.*
+yarn-debug.log*
+yarn-error.log*
+expo-error.log
+
+# Build e artefatos temporários
+dist/
+build/
+*.apk
+*.aab
+*.ipa
+
+############################################
+# PYTHON
+############################################
+# Ambiente virtual
+venv/
+
+# Cache Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Configurações temporárias
+*.pytest_cache/
+.ipynb_checkpoints/
+
+############################################
+# MODELOS E DATASETS (opcional)
+############################################
+# Ignorar arquivos grandes de modelo/dataset
+# Se quiser versionar um modelo treinado, remova a linha correspondente
+model/*.h5
+model/*.npy
+data/
+
+############################################
+# SISTEMA / EDITOR
+############################################
+# Configurações locais do VSCode
+.vscode/
+
+# Arquivos temporários do SO
+.DS_Store
+Thumbs.db
