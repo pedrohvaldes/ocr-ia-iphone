@@ -56,3 +56,6 @@ data/
 # Arquivos temporários do SO
 .DS_Store
 Thumbs.db
+
+
+node_modules
