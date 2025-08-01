@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
-import { Camera } from 'expo-camera';
+import { View, Button, StyleSheet, Text } from 'react-native';
+import { Camera, CameraType } from 'expo-camera';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../App';
 
-export default function CameraScreen({ navigation }) {
-  const [hasPermission, setHasPermission] = useState(null);
-  const [cameraRef, setCameraRef] = useState(null);
+type Props = NativeStackScreenProps<RootStackParamList, 'Camera'>;
+
+export default function CameraScreen({ navigation }: Props) {
+  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [cameraRef, setCameraRef] = useState<Camera | null>(null);
+  const [type] = useState(CameraType.back);
 
   useEffect(() => {
     (async () => {
@@ -21,17 +26,21 @@ export default function CameraScreen({ navigation }) {
   };
 
   if (hasPermission === null) return <View />;
-  if (hasPermission === false) return <View><Text>No access to camera</Text></View>;
+  if (hasPermission === false) return <Text>No access to camera</Text>;
 
   return (
-    <Camera style={styles.camera} ref={setCameraRef}>
+    <View style={styles.container}>
+      <Camera
+        style={styles.camera}
+        type={type}
+        ref={(ref) => setCameraRef(ref)}
+      />
       <Button title="Capturar" onPress={takePicture} />
-    </Camera>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  camera: {
-    flex: 1
-  }
+  container: { flex: 1 },
+  camera: { flex: 1 }
 });

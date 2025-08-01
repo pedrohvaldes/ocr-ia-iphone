@@ -4,7 +4,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CameraScreen from './screens/CameraScreen';
 import ResultScreen from './screens/ResultScreen';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Camera: undefined;
+  Result: { image: string };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function App() {
   return (
