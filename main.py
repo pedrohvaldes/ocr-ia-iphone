@@ -62,6 +62,13 @@ print(f"Acurácia no teste: {acc*100:.2f}%")
 
 # ===============================
 # 8. Salvar modelo
-# ===============================
 model.save("model/az_letters_cnn.h5")
-print("Modelo salvo!")
+
+# Salvar conjuntos de teste
+np.save("model/X_test.npy", X_test)
+np.save("model/y_test.npy", y_test)
+
+print("Modelo e conjuntos de teste salvos!")
+
+
+
