@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { View, Button, StyleSheet, Text } from 'react-native';
-import { Camera, CameraType } from 'expo-camera';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../App';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Camera'>;
 
 export default function CameraScreen({ navigation }: Props) {
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
-  const [cameraRef, setCameraRef] = useState<Camera | null>(null);
-  const [type] = useState(CameraType.back);
+  const [permission, requestPermission] = useCameraPermissions();
+  const cameraRef = useRef<CameraView>(null);
 
-  useEffect(() => {
-    (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    })();
-  }, []);
+  if (!permission) return <View />;
+  if (!permission.granted) {
+    return (
+      <View>
+        <Text>Sem acesso à câmera</Text>
+        <Button title="Permitir acesso" onPress={requestPermission} />
+      </View>
+    );
+  }
 
   const takePicture = async () => {
-    if (cameraRef) {
-      const photo = await cameraRef.takePictureAsync({ base64: true });
-      navigation.navigate('Result', { image: photo.base64 });
-    }
-  };
+    if (cameraRef.current) {
+  const photo = await cameraRef.current.takePictureAsync({ base64: true });
+  if (photo.base64) {
+    navigation.navigate('Result', { image: photo.base64 });
+  } else {
+    console.error("Erro: base64 não gerado");
+  }
+}
 
-  if (hasPermission === null) return <View />;
-  if (hasPermission === false) return <Text>No access to camera</Text>;
+  };
 
   return (
     <View style={styles.container}>
-      <Camera
-        style={styles.camera}
-        type={type}
-        ref={(ref) => setCameraRef(ref)}
-      />
+      <CameraView style={styles.camera} facing="back" ref={cameraRef} />
       <Button title="Capturar" onPress={takePicture} />
     </View>
   );
